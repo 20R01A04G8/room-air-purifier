@@ -1,0 +1,42 @@
+#include <SoftwareSerial.h>
+#include <LiquidCrystal.h>
+LiquidCrystal lcd( 12, 11, 5, 4, 3,2);
+float t=0;
+char data = 0;
+// replace with your channel's thingspeak API key
+String apiKey = "8NBNB4VQ9F2EEWQM";
+// connect 0 to TX of Serial USB
+// connect 1 to RX of serial USB
+SoftwareSerial ser(0,1); // RX, TX
+// this runs once
+void setup() 
+{                
+  ser.begin(9600);
+  lcd.begin(16, 2);
+  lcd.setCursor(0,0); 
+  lcd.print("EEP PROJECT");
+  lcd.setCursor(0,1);
+  delay(3000);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("    IOT AIR");
+  lcd.setCursor(0,1);
+  lcd.print("QUALITY MONITOR");  
+  ser.println("AT+GMR");
+  delay(1000);
+  ser.println("AT+CWMODE=3");
+  delay(1000);
+  ser.println("AT+RST");
+  delay(5000);
+  ser.println("AT+CIPMUX=1");
+  delay(1000);
+  String cmd="AT+CWJAP=\"Wifi Ssid\",\"Password\"";
+  ser.println(cmd);
+  delay(1000);
+  ser.println("AT+CIFSR");
+  delay(1000);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.setCursor(0,1);
+  lcd.print("   CONNECTED");
+}
